@@ -4,14 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Fancy Grid</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dynamic Circuit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- <div style="padding:auto; height: 150vh; width: 50vh; background-color: red; border-radius: 5px; margin: 50px">
-        This is test content
-    </div> -->
-    <canvas id="canvas"></canvas>
-	<script src="script.js" type="module"></script>
+    <div id="content" class="container">
+      <div class="m-sm-5 m-2 p-sm-5 p-2 rounded" style="background-color: #f1f1f1e9; ">
+        <h1 class="display-1 text-center">Dynamic Circuit</h1>
+        <p class="lead">A dynamic background for your site!</p>
+        <br>
+
+        <div class="d-flex flex-row-reverse">
+          <div class="text-center">
+            <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.getElementById('content').style.display = 'none'">Hide Technobabble</button>
+            <p class="mute">Refresh the page to see this information again</p>
+          </div>
+        </div>
+        <br>
+
+        <h2 class="display-6">Usage</h2>
+        <p class>Create a canvas element and style it like so:</p>
+        <pre data-src="codeSnippets/example.html" class="rounded"></pre>
+        <br>
+        <p>Then, import the script and initialize it with your canvas:</p>
+        <pre data-src="codeSnippets/example.js" class="rounded"></pre>
+        <br>
+        <p>To use as a background, set the canvas's style to look like this:</p>
+        <pre data-src="codeSnippets/example.css" class="rounded"></pre>
+
+        <h2 class="display-6">Options</h2>
+        <p><code class="language-js">init()</code> takes an optional second parameter that can customize its behavior. Here are the default values:</p>
+        <pre data-src="codeSnippets/defaultProps.json" class="rounded"></pre>
+        <p>Here are some more details on what each property does:</p>
+        <table class="table table-dark rounded" style="overflow:hidden">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>debugGrid</th>
+              <td>Display a visualization of the search algorithm and the underlying grid</td>
+            </tr>
+            <tr>
+              <th>gridBoxSize</th>
+              <td>The target size for each box in the grid (in pixels)</td>
+            </tr>
+            <tr>
+              <th>circleDiameter</th>
+              <td>The size of the start and end circles of each line (in pixels)</td>
+            </tr>
+            <tr>
+              <th>initialNumberOfLines</th>
+              <td>The number of lines to draw on when init is called</td>
+            </tr>
+            <tr>
+              <th>linesPerSecond</th>
+              <td>The number of lines to draw per second</td>
+            </tr>
+            <tr>
+              <th>maxAttempts</th>
+              <td>The number of times the path finding algorithm should attempt finding a valid path before failing</td>
+            </tr>
+            <tr>
+              <th>strokeWidth</th>
+              <td>The width of the lines (in pixels)</td>
+            </tr>
+            <tr>
+              <th>lengthPerSecond</th>
+              <td>The average speed the lines should travel at</td>
+            </tr>
+            <tr>
+              <th>backgroundColor</th>
+              <td>Specifies the background color the canvas will be on (used to allow the solid circles to fade in)</td>
+            </tr>
+            <tr>
+              <th>color</th>
+              <td>Sets the color the circuit will be drawn in</td>
+            </tr>
+            <tr>
+              <th>shrink</th>
+              <td>To get more detailed drawings, the canvas is created this many times larger than needed, and then shrunk down this many times
+              <br>
+              Due to quirks with canvases, this is the only way to increase resolution</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <canvas id="background-canvas" style="position:absolute; top:0; left:0; overflow:hidden; z-index:-1;"></canvas>
+    <script type="module">
+      import init from './dynamicCircuit.js';
+      const canvas = document.getElementById("background-canvas");
+      init(canvas);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+    integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/file-highlight/prism-file-highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,13 @@
+{
+    "debugGrid": false,
+    "gridBoxSize": 20,
+    "circleDiameter": 10,
+    "initialNumberOfLines": 10,
+    "linesPerSecond": 5,
+    "maxAttempts": 10,
+    "strokeWidth": 2,
+    "lengthPerSecond": 100,
+    "backgroundColor": {"r": 255, "g": 255, "b": 255},
+    "color": {"r": 100, "g": 100, "b": 100},
+    "shrink": 2
+}
