@@ -40,11 +40,11 @@ export default function init(canvas, properties=defaultProperties){
     function updateSizingInfo(){
         const html = document.getElementsByTagName("html")[0]
         height = Math.max(
-            properties.parent.scrollHeight,
+            // properties.parent.scrollHeight,
             properties.parent.offsetHeight, 
         ) * properties.shrink - 1;
         width = Math.max(
-            properties.parent.scrollWidth,
+            // properties.parent.scrollWidth,
             properties.parent.offsetWidth
         ) * properties.shrink - 1;
         windowHeight = window.innerHeight * properties.shrink - 1
@@ -67,7 +67,7 @@ export default function init(canvas, properties=defaultProperties){
     }
 
     const resizeObserver = new ResizeObserver(updateSizingInfo)
-    resizeObserver.observe(document.body)
+    resizeObserver.observe(properties.parent)
     updateSizingInfo()
     
     if(properties.debugGrid){
