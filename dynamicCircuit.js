@@ -4,7 +4,7 @@ const defaultProperties = {
     debugGrid: false,
     gridBoxSize: 20,
     circleDiameter: 10,
-    initialNumberOfLines: 10,
+    initialNumberOfLines: 500,
     linesPerSecond: 5,
     maxAttempts: 10,
     strokeWidth: 2,
@@ -12,6 +12,7 @@ const defaultProperties = {
     backgroundColor: {r: 255, g: 255, b: 255},
     color: {r: 100, g: 100, b: 100},
     shrink: 2,
+    offscreenCalculationBoxes: 5,
 }
 
 export default function init(canvas, properties=defaultProperties){
@@ -90,11 +91,16 @@ export default function init(canvas, properties=defaultProperties){
         return [pos[0] * actualBoxWidth, pos[1] * actualBoxHeight] 
     }
 
-    function getAvailablePos(){
+    function getViewPortInfo(){
         const boxesToSkipHeight = Math.floor(window.scrollY*properties.shrink/actualBoxHeight)
         const boxesWindowHeight = Math.ceil(windowHeight/actualBoxHeight)
         const boxesToSkipWidth = Math.floor(window.scrollX*properties.shrink/actualBoxWidth)
         const boxesWindowWidth = Math.ceil(windowWidth/actualBoxWidth)
+        return {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth}
+    }
+
+    function getAvailablePos(){
+        const {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth} = getViewPortInfo()
         let pos
         do{
             pos = [
@@ -125,6 +131,7 @@ export default function init(canvas, properties=defaultProperties){
     }
     
     const getSuccessors = (s)=>{
+        const {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth} = getViewPortInfo()
         const diagonalBlockingPositions = {
             "right-up": [[0, 1], [1, 0]],
             "right-down": [[0, -1], [1, 0]],
@@ -136,7 +143,13 @@ export default function init(canvas, properties=defaultProperties){
             const cost = Math.sqrt(actions[action][0]**2 + actions[action][1]**2)
             const newState = s.map((d,i)=>d+actions[action][i])
             
+            // Check if new state is out of bounds
             if(newState[0] < 0 || newState[0] >= boxesInRow || newState[1] < 0 || newState[1] >= boxesInCol)
+                continue
+
+            // Check if new state is in viewport
+            const off = properties.offscreenCalculationBoxes || Infinity
+            if(newState[0] < boxesToSkipWidth - off || newState[0] >= boxesToSkipWidth + boxesWindowWidth + off || newState[1] < boxesToSkipHeight - off || newState[1] >= boxesToSkipHeight + boxesWindowHeight + off)
                 continue
 
             if(gridWalls.has(newState.toString()))

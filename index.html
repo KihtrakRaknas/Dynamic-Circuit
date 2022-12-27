@@ -93,6 +93,12 @@
               <br>
               Due to quirks with canvases, this is the only way to increase resolution</td>
             </tr>
+            <tr>
+              <th>offscreenCalculationBoxes</th>
+              <td>Specifies how far off screen the search algorithm can travel to make a path (in grid boxes)</td>
+              <br>
+              Setting this to a low number can save considerable processing power on webpages with lots of scrollable overflow
+            </tr>
           </tbody>
         </table>
 
@@ -103,7 +109,7 @@
     <script type="module">
       import init from './dynamicCircuit.js';
       const canvas = document.getElementById("background-canvas");
-      init(canvas);
+      init(canvas)
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
