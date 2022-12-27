@@ -4,7 +4,7 @@ const defaultProperties = {
     debugGrid: false,
     gridBoxSize: 20,
     circleDiameter: 10,
-    initialNumberOfLines: 500,
+    initialNumberOfLines: 10,
     linesPerSecond: 5,
     maxAttempts: 10,
     strokeWidth: 2,
@@ -13,6 +13,7 @@ const defaultProperties = {
     color: {r: 100, g: 100, b: 100},
     shrink: 2,
     offscreenCalculationBoxes: 5,
+    parent: document.getElementsByTagName("html")[0]
 }
 
 export default function init(canvas, properties=defaultProperties){
@@ -39,14 +40,12 @@ export default function init(canvas, properties=defaultProperties){
     function updateSizingInfo(){
         const html = document.getElementsByTagName("html")[0]
         height = Math.max(
-            document.body.scrollHeight, 
-            document.body.offsetHeight, 
-            html.offsetHeight, 
+            properties.parent.scrollHeight,
+            properties.parent.offsetHeight, 
         ) * properties.shrink - 1;
         width = Math.max(
-            document.body.scrollWidth, 
-            document.body.offsetWidth, 
-            html.offsetWidth
+            properties.parent.scrollWidth,
+            properties.parent.offsetWidth
         ) * properties.shrink - 1;
         windowHeight = window.innerHeight * properties.shrink - 1
         windowWidth = window.innerWidth * properties.shrink - 1
@@ -92,10 +91,15 @@ export default function init(canvas, properties=defaultProperties){
     }
 
     function getViewPortInfo(){
-        const boxesToSkipHeight = Math.floor(window.scrollY*properties.shrink/actualBoxHeight)
-        const boxesWindowHeight = Math.ceil(windowHeight/actualBoxHeight)
-        const boxesToSkipWidth = Math.floor(window.scrollX*properties.shrink/actualBoxWidth)
-        const boxesWindowWidth = Math.ceil(windowWidth/actualBoxWidth)
+        let { top, bottom, left, right } = canvas.getBoundingClientRect()
+        top *= properties.shrink
+        bottom *= properties.shrink
+        left *= properties.shrink
+        right *= properties.shrink
+        const boxesToSkipHeight = Math.floor(Math.max(-top,0)/actualBoxHeight)
+        const boxesWindowHeight = Math.ceil((windowHeight-Math.max(windowHeight-bottom,0)-Math.max(top,0))/actualBoxHeight)
+        const boxesToSkipWidth = Math.floor(Math.max(-left,0)/actualBoxWidth)
+        const boxesWindowWidth = Math.ceil((windowWidth-Math.max(left,0)-Math.max(windowWidth-right,0))/actualBoxWidth)
         return {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth}
     }
 
@@ -148,7 +152,7 @@ export default function init(canvas, properties=defaultProperties){
                 continue
 
             // Check if new state is in viewport
-            const off = properties.offscreenCalculationBoxes || Infinity
+            const off = properties.offscreenCalculationBoxes
             if(newState[0] < boxesToSkipWidth - off || newState[0] >= boxesToSkipWidth + boxesWindowWidth + off || newState[1] < boxesToSkipHeight - off || newState[1] >= boxesToSkipHeight + boxesWindowHeight + off)
                 continue
 
