@@ -38,15 +38,8 @@ export default function init(canvas, properties=defaultProperties){
     let allSteps = []
 
     function updateSizingInfo(){
-        const html = document.getElementsByTagName("html")[0]
-        height = Math.max(
-            // properties.parent.scrollHeight,
-            properties.parent.offsetHeight, 
-        ) * properties.shrink - 1;
-        width = Math.max(
-            // properties.parent.scrollWidth,
-            properties.parent.offsetWidth
-        ) * properties.shrink - 1;
+        height = properties.parent.offsetHeight * properties.shrink - 1;
+        width = properties.parent.offsetWidth * properties.shrink - 1;
         windowHeight = window.innerHeight * properties.shrink - 1
         windowWidth = window.innerWidth * properties.shrink - 1
 
@@ -60,11 +53,16 @@ export default function init(canvas, properties=defaultProperties){
         for(let drawLine of allSteps)
             drawLine()
 
-        boxesInRow = Math.round(width / gridBoxSize)
-        boxesInCol = Math.round(height / gridBoxSize)
-        actualBoxWidth = width/boxesInRow
-        actualBoxHeight = height/boxesInCol
+        boxesInRow = Math.floor(width / actualBoxWidth)
+        boxesInCol = Math.floor(height / actualBoxHeight)
     }
+
+    height = properties.parent.offsetHeight * properties.shrink - 1;
+    width = properties.parent.offsetWidth * properties.shrink - 1;
+    boxesInRow = Math.round(width / gridBoxSize)
+    boxesInCol = Math.round(height / gridBoxSize)
+    actualBoxWidth = width/boxesInRow
+    actualBoxHeight = height/boxesInCol
 
     const resizeObserver = new ResizeObserver(updateSizingInfo)
     resizeObserver.observe(properties.parent)
