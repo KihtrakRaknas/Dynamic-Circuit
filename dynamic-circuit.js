@@ -193,7 +193,7 @@ export default function init(canvas, properties=defaultProperties){
             startState = getAvailablePos();
             const goalState = getAvailablePos();
 
-            if((properties.maxAttempts && attempts > properties.maxAttempts) || startState === null  && goalState === null){
+            if((properties.maxAttempts && attempts > properties.maxAttempts) || startState === null  || goalState === null){
                 gridLock = false
                 return
             }
