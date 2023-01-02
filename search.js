@@ -1,4 +1,4 @@
-import PriorityQueue from './priorityQueue.js';
+import PriorityQueue from './priority-queue.js';
 
 export default function aStar(problem){
     let frontier = new PriorityQueue();

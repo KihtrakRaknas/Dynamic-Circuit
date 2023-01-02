@@ -1,0 +1,25 @@
+{
+  "name": "dynamic-circuit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dynamic-circuit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KihtrakRaknas/dynamic-circuit.git"
+  },
+  "keywords": [
+    "dynamicCircuit",
+    "dynamic-circuit",
+    "background",
+    "animation"
+  ],
+  "author": "Karthik Sankar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KihtrakRaknas/dynamic-circuit/issues"
+  },
+  "homepage": "https://github.com/KihtrakRaknas/dynamic-circuit#readme"
+}
