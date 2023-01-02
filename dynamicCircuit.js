@@ -104,15 +104,20 @@ export default function init(canvas, properties=defaultProperties){
     }
 
     function getAvailablePos(){
-        const {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth} = getViewPortInfo()
-        let pos
+        const {boxesToSkipHeight, boxesWindowHeight, boxesToSkipWidth, boxesWindowWidth} = getViewPortInfo();
+        const numberOfAttempts = boxesWindowWidth * boxesWindowHeight;
+        let attempts = 0;
+        let pos;
         do{
+            attempts++;
+            if(numberOfAttempts < attempts)
+                return null;
             pos = [
                 boxesToSkipWidth + Math.floor(Math.random() * boxesWindowWidth),
                 boxesToSkipHeight + Math.floor(Math.random() * boxesWindowHeight)
             ]
         }while(gridWalls.has(pos.toString()));
-        return pos
+        return pos;
     }
 
     function fillSquare(pos, color){
@@ -187,12 +192,13 @@ export default function init(canvas, properties=defaultProperties){
         let attempts = 0
         do{
             attempts++
-            if(properties.maxAttempts && attempts > properties.maxAttempts){
+            startState = getAvailablePos();
+            const goalState = getAvailablePos();
+
+            if((properties.maxAttempts && attempts > properties.maxAttempts) || startState === null  && goalState === null){
                 gridLock = false
                 return
             }
-            startState = getAvailablePos();
-            const goalState = getAvailablePos();
 
             const problem = {
                 isGoalState: (s)=>s[0]===goalState[0] && s[1]===goalState[1],
