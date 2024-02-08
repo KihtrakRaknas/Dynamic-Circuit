@@ -348,11 +348,11 @@ export default function init(canvas, properties=defaultProperties){
                     ctx.stroke();
                 }
             }
-            if(progress >= 1){
-                clearInterval(interval)
+            if(progress < 1){
+                window.requestAnimationFrame(drawLine)
             }
         }
-        interval = setInterval(drawLine, 50)
+        drawLine()
         allSteps.push(drawLine)
     }
 }
